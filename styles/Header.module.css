@@ -6,7 +6,8 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    text-align: center
+    text-align: center;
+    margin-bottom: 2rem
 }
 .padding {
     padding-top: 120px

@@ -1,19 +1,13 @@
 import Layout from '@/components/Layout'
 import { URL_API } from '@/config'
+import Pelicula from './peliculas/pelicula'
 
 export default async function Home() {
   const { peliculas } = await getData()
 
   return (
     <Layout>
-      {peliculas &&
-        peliculas.map((peli: any) => (
-          <div key={peli.id}>
-            <h3>{peli.titulo}</h3>
-            <span>{peli.descripcion}</span>
-            <img src={peli.imagen} alt="" />
-          </div>
-        ))}
+      {peliculas && peliculas.map((peli: any) => <Pelicula {...peli} />)}
       <main className="min-vh-100 w-100 mt-4 ">
         <div className="accordion col-md-6 mx-auto " id="accordionPanelsStayOpenExample">
           <div className="accordion-item">

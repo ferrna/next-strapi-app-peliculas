@@ -1,4 +1,5 @@
 import Layout from '@/components/Layout'
+import Pelicula from './pelicula'
 
 export default function Peliculas() {
   return (

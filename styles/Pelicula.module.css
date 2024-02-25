@@ -1,0 +1,13 @@
+
+.pelicula_img {
+    max-width: 20%;
+    height: auto;
+}
+.pelicula_details {
+    left: 20% !important;
+    max-height: 100%;
+}
+.pelicula_description {
+    max-height: 50%;
+    overflow: auto;
+}
