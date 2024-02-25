@@ -1,95 +1,106 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Layout from '@/components/Layout'
+import { URL_API } from '@/config'
 
-export default function Home() {
+export default async function Home() {
+  const { peliculas } = await getData()
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <Layout>
+      {peliculas &&
+        peliculas.map((peli: any) => (
+          <div key={peli.id}>
+            <h3>{peli.titulo}</h3>
+            <span>{peli.descripcion}</span>
+            <img src={peli.imagen} alt="" />
+          </div>
+        ))}
+      <main className="min-vh-100 w-100 mt-4 ">
+        <div className="accordion col-md-6 mx-auto " id="accordionPanelsStayOpenExample">
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseOne"
+                aria-expanded="true"
+                aria-controls="panelsStayOpen-collapseOne"
+              >
+                Accordion Item #1
+              </button>
+            </h2>
+            <div id="panelsStayOpen-collapseOne" className="accordion-collapse collapse show">
+              <div className="accordion-body">
+                <strong>This is the first item's accordion body.</strong> It is shown by default, until the
+                collapse plugin adds the appropriate classNamees that we use to style each element. These
+                classNamees control the overall appearance, as well as the showing and hiding via CSS
+                transitions. You can modify any of this with custom CSS or overriding our default variables.
+                It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>,
+                though the transition does limit overflow.
+              </div>
+            </div>
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseTwo"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseTwo"
+              >
+                Accordion Item #2
+              </button>
+            </h2>
+            <div id="panelsStayOpen-collapseTwo" className="accordion-collapse collapse">
+              <div className="accordion-body">
+                <strong>This is the second item's accordion body.</strong> It is hidden by default, until the
+                collapse plugin adds the appropriate classNamees that we use to style each element. These
+                classNamees control the overall appearance, as well as the showing and hiding via CSS
+                transitions. You can modify any of this with custom CSS or overriding our default variables.
+                It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>,
+                though the transition does limit overflow.
+              </div>
+            </div>
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseThree"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseThree"
+              >
+                Accordion Item #3
+              </button>
+            </h2>
+            <div id="panelsStayOpen-collapseThree" className="accordion-collapse collapse">
+              <div className="accordion-body">
+                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the
+                collapse plugin adds the appropriate classNamees that we use to style each element. These
+                classNamees control the overall appearance, as well as the showing and hiding via CSS
+                transitions. You can modify any of this with custom CSS or overriding our default variables.
+                It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>,
+                though the transition does limit overflow.
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </main>
+    </Layout>
+  )
+}
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+async function getData() {
+  const res = await fetch(`${URL_API}/api/peliculas`, { next: { revalidate: 100 } })
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+  if (res.status !== 200) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data')
+  }
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+  return res.json()
 }

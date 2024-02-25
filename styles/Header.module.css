@@ -1,0 +1,13 @@
+.header {
+    height: 350px;
+    width: 100%;
+    background: #000 url('/imagenes/fondo-encabezado.jpg') no-repeat center center;
+    color: #fff;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-align: center
+}
+.padding {
+    padding-top: 120px
+}

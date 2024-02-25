@@ -1,0 +1,7 @@
+.logo {
+    background: url('/imagenes/logo-app.png') no-repeat center center;
+    width: 80px;
+    height: 80px;
+    background-size: contain;
+    margin-right: 40px;
+}

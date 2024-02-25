@@ -1,0 +1,30 @@
+{
+   "peliculas": [
+        {
+            "id": "1",
+            "titulo": "The Terminator",
+            "enlaceUrl": "terminator",
+            "descripcion": "Un cyborg ha sido enviado desde el futuro en una misión mortal: eliminar a Sarah Connor, una joven cuya vida tendrá una gran importancia en los próximos años. Sarah tiene sólo un protector —Kyle Reese— también enviado desde el futuro. El Terminator utiliza su inteligencia excepcional y fuerza para encontrar a Sarah, pero ¿hay alguna forma de detener al cyborg aparentemente indestructible?",
+            "pais": "Estados Unidos",
+            "genero": "Acción, Suspenso, Ciencia Ficción",
+            "director": "James Cameron",
+            "guion": "William Wisher Jr",
+            "imagen": "/imagenes/terminador1.jpg",
+            "calificacion": 4,
+            "fechaEstreno": "2022-05-14"
+        },
+        {
+            "id": "2",
+            "titulo": "El Proyecto Adam",
+            "enlaceUrl": "proyecto-adam",
+            "descripcion": "Adam Reed es un piloto de caza que viaja en el tiempo. Cuando se estrella en el año 2022, conoce a su yo de 12 años y juntos emprenden una misión para salvar el futuro.",
+            "pais": "Estados Unidos",
+            "genero": "Acción, Aventura",
+            "director": "Shawn, Levy",
+            "guion": "Jennifer Flackett",
+            "imagen": "/imagenes/proyecto-adam.jpg",
+            "calificacion": 3,
+            "fechaEstreno": "2022-05-12"
+        }
+    ] 
+}
