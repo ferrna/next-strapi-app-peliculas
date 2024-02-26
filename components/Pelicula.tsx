@@ -25,7 +25,9 @@ const Pelicula = ({ titulo, descripcion, enlaceUrl, imagen, fechaEstreno }: Peli
         <p className="card-text">
           <small>{fechaEstreno}</small>
           <button className="btn btn-info m-2">
-            <Link href={`/peliculas/${enlaceUrl}`}>Ver detalles</Link>
+            <Link href={`/peliculas/${enlaceUrl}`} className="text-decoration-none">
+              Ver detalles
+            </Link>
           </button>
         </p>
       </div>

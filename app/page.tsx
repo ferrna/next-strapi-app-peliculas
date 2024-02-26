@@ -1,6 +1,6 @@
 import Layout from '@/components/Layout'
 import { URL_API } from '@/config'
-import Pelicula from './peliculas/pelicula'
+import Pelicula from '@/components/Pelicula'
 
 export default async function Home() {
   const { peliculas } = await getData()
