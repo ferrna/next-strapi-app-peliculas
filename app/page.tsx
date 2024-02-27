@@ -1,10 +1,11 @@
 import Layout from '@/components/Layout'
 import { URL_API } from '@/config'
 import Pelicula from '@/components/Pelicula'
+import { formatData } from '@/utils/formatData'
 
 export default async function Home() {
-  const { peliculas } = await getData()
-
+  const { data } = await getData()
+  const peliculas = data.map((pelicula: any) => formatData(pelicula))
   return (
     <Layout>
       {peliculas && peliculas.map((peli: any) => <Pelicula {...peli} />)}
@@ -89,7 +90,12 @@ export default async function Home() {
 }
 
 async function getData() {
-  const res = await fetch(`${URL_API}/api/peliculas`, { next: { revalidate: 100 } })
+  const res = await fetch(
+    `${URL_API}/api/peliculas?sort=createdAt:DESC&pagination[start]=0&pagination[limit]=3&populate=*`,
+    {
+      next: { revalidate: 100 },
+    }
+  )
 
   if (res.status !== 200) {
     // This will activate the closest `error.js` Error Boundary

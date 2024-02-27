@@ -3,6 +3,8 @@ import { URL_API } from '@/config'
 import Link from 'next/link'
 import { FC } from 'react'
 import styles from '@/styles/Detalles.module.css'
+import { formatData } from '@/utils/formatData'
+import { StarRating } from '@/utils/starRating'
 
 interface DetalleProps {
   params: { name: string }
@@ -11,8 +13,8 @@ interface DetalleProps {
 const Detalle: FC<DetalleProps> = async ({ params }) => {
   const { name } = params
   const res = await getData(name)
-  const pelicula = res[0]
-  console.log(pelicula)
+  const pelicula = formatData(res.data[0])
+
   return (
     <Layout title="Detalle de Pelicula">
       <div className="container my-4">
@@ -73,7 +75,9 @@ const Detalle: FC<DetalleProps> = async ({ params }) => {
 export default Detalle
 
 async function getData(param: string) {
-  const res = await fetch(`${URL_API}/api/peliculas/${param}`, { next: { revalidate: 1000 } })
+  const res = await fetch(`${URL_API}/api/peliculas?filters[enlaceUrl][$eq]=${param}&populate=*`, {
+    next: { revalidate: 1000 },
+  })
 
   if (res.status !== 200) {
     // This will activate the closest `error.js` Error Boundary
@@ -81,29 +85,4 @@ async function getData(param: string) {
   }
 
   return res.json()
-}
-
-const StarRating = ({ calificacion }: { calificacion: number }) => {
-  const stars = []
-  for (let i = 0; i < calificacion; i++) {
-    stars.push(
-      <span key={i} className="bi bi-star-fill" style={{ fontSize: '20px', color: 'rgb(255, 210, 48)' }}></span>
-    )
-  }
-  const blankNumber = 5 - calificacion
-  if (blankNumber > 0) {
-    for (let i = 0; i < blankNumber; i++) {
-      stars.push(
-        <span key={i} className="bi bi-star" style={{ fontSize: '20px', color: 'rgb(255, 210, 48)' }}></span>
-      )
-    }
-  }
-
-  return (
-    <div>
-      {'Calificacion: '}
-      {stars}&nbsp;
-      {calificacion + '/5'}
-    </div>
-  )
 }
