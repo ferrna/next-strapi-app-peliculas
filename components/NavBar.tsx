@@ -1,9 +1,18 @@
+'use client'
 import Link from 'next/link'
-import React, { FC } from 'react'
+import React, { FC, FormEvent } from 'react'
 import styles from '@/styles/NavBar.module.css'
+import { useRouter } from 'next/navigation'
 interface NavBarProps {}
 
 const NavBar: FC<NavBarProps> = ({}) => {
+  const router = useRouter()
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const search = formData.get('search')
+    router.push(`/busqueda?search=${search}`)
+  }
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container">
@@ -34,8 +43,16 @@ const NavBar: FC<NavBarProps> = ({}) => {
               </Link>
             </li>
           </ul>
-          <form className="d-flex" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+          <form className="d-flex" role="search" action="#" method="GET" onSubmit={handleSubmit}>
+            <input
+              id="search"
+              name="search"
+              className="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+              required
+            />
             <button className="btn btn-outline-success" type="submit">
               Search
             </button>

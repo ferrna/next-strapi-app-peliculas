@@ -24,7 +24,7 @@ const Layout = ({
 }: CustomMetadata) => {
   const pathname = usePathname()
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100">
       <Head>
         <title>{title as string}</title>
         <meta name="description" content={description as string} />
@@ -33,7 +33,7 @@ const Layout = ({
       </Head>
       <NavBar />
       {pathname === '/' && <Header />}
-      <div className="container">{children}</div>
+      <div className="container flex-grow-1 ">{children}</div>
       <Footer />
     </div>
   )
