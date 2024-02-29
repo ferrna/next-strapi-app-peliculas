@@ -5,6 +5,7 @@ import { FC } from 'react'
 import styles from '@/styles/Detalles.module.css'
 import { formatData } from '@/utils/formatData'
 import { StarRating } from '@/utils/starRating'
+import Buttons from './buttons'
 
 interface DetalleProps {
   params: { name: string }
@@ -19,6 +20,7 @@ const Detalle: FC<DetalleProps> = async ({ params }) => {
     <Layout title="Detalle de Pelicula">
       <div className="container my-4">
         <div className="card">
+          <Buttons id={pelicula.id} />
           <div className="card-body">
             <div className="card text-bg-dark mb-3">
               <img src={pelicula.imagen} className={`card-img ${styles.pelicula_img}`} alt="..." />

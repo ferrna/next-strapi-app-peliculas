@@ -18,7 +18,7 @@ interface Pelicula {
 }
 const Pelicula = ({ titulo, descripcion, enlaceUrl, imagenSmall, fechaEstreno }: Pelicula) => {
   return (
-    <div className="card text-bg-dark mb-5" key={enlaceUrl}>
+    <div className="card text-bg-dark mb-5" style={{ minHeight: '180px' }} key={enlaceUrl}>
       <img src={imagenSmall} className={`card-img ${styles.pelicula_img}`} alt="..." />
       <div className={`card-img-overlay ${styles.pelicula_details}`}>
         <h5 className="card-title">{titulo}</h5>
