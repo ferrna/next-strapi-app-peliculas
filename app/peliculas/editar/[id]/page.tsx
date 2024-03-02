@@ -4,6 +4,7 @@ import { URL_API } from '@/config'
 import { formatData } from '@/utils/formatData'
 import { useRouter } from 'next/navigation'
 import { FC, FormEvent, useEffect } from 'react'
+import ModalImport from './modalImport'
 
 const inputsMeta = [
   {
@@ -126,6 +127,7 @@ const Editar: FC<EditarProps> = async ({ params }) => {
           </button>
         </div>
       </form>
+      <ModalImport id={id} />
     </Layout>
   )
 }

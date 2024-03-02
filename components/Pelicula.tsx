@@ -1,6 +1,8 @@
 import React from 'react'
 import styles from '@/styles/Pelicula.module.css'
 import Link from 'next/link'
+import imagenTemp from '@/public/imagenes/pelicula-temp.jpg'
+import Image from 'next/image'
 
 interface Pelicula {
   id: number
@@ -19,11 +21,21 @@ interface Pelicula {
 const Pelicula = ({ titulo, descripcion, enlaceUrl, imagenSmall, fechaEstreno }: Pelicula) => {
   return (
     <div className="card text-bg-dark mb-5" style={{ minHeight: '180px' }} key={enlaceUrl}>
-      <img src={imagenSmall} className={`card-img ${styles.pelicula_img}`} alt="..." />
+      <Image
+        src={imagenSmall || imagenTemp}
+        width={200}
+        height={300}
+        className={`card-img ${styles.pelicula_img}`}
+        alt="..."
+      />
       <div className={`card-img-overlay ${styles.pelicula_details}`}>
-        <h5 className="card-title">{titulo}</h5>
-        <p className={`card-text ${styles.pelicula_description}`}>{descripcion}</p>
-        <p className="card-text">
+        <h5 key={titulo} className="card-title">
+          {titulo}
+        </h5>
+        <p key={titulo + 'description'} className={`card-text ${styles.pelicula_description}`}>
+          {descripcion}
+        </p>
+        <p key={titulo + 'text'} className="card-text">
           <small>{fechaEstreno}</small>
           <button className="btn btn-info m-2">
             <Link href={`/peliculas/${enlaceUrl}`} className="text-decoration-none">

@@ -19,7 +19,9 @@ const Modal = ({ onClose, children, title }: ModalProps) => {
       <div className={styles.modal_wrapper}>
         <div className={styles.modal}>
           <div className={styles.modal_header}>
-            <button onClick={handleCloseClick}>x</button>
+            <button onClick={handleCloseClick} className="btn btn-outline-primary rounded-circle">
+              X
+            </button>
           </div>
           {title && <h1>{title}</h1>}
           <div className={styles.modal_body}>{children}</div>

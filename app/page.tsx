@@ -93,7 +93,7 @@ async function getData() {
   const res = await fetch(
     `${URL_API}/api/peliculas?sort=createdAt:DESC&pagination[start]=0&pagination[limit]=3&populate=*`,
     {
-      next: { revalidate: 100 },
+      next: { revalidate: 30 },
     }
   )
 

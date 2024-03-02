@@ -3,7 +3,6 @@ import Layout from '@/components/Layout'
 import { URL_API } from '@/config'
 import { useRouter } from 'next/navigation'
 import { FormEvent } from 'react'
-import ModalImport from './modalImport'
 
 const inputsMeta = [
   {
@@ -104,7 +103,6 @@ const Crear = async () => {
           </button>
         </div>
       </form>
-      <ModalImport />
     </Layout>
   )
 }

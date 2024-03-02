@@ -6,6 +6,8 @@ import styles from '@/styles/Detalles.module.css'
 import { formatData } from '@/utils/formatData'
 import { StarRating } from '@/utils/starRating'
 import Buttons from './buttons'
+import imagenTemp from '@/public/imagenes/pelicula-temp.jpg'
+import Image from 'next/image'
 
 interface DetalleProps {
   params: { name: string }
@@ -23,7 +25,13 @@ const Detalle: FC<DetalleProps> = async ({ params }) => {
           <Buttons id={pelicula.id} />
           <div className="card-body">
             <div className="card text-bg-dark mb-3">
-              <img src={pelicula.imagen} className={`card-img ${styles.pelicula_img}`} alt="..." />
+              <Image
+                src={pelicula.imagen || imagenTemp}
+                width={300}
+                height={400}
+                className={`card-img ${styles.pelicula_img}`}
+                alt="..."
+              />
               <div className={`card-img-overlay ${styles.pelicula_details}`}>
                 <h2 className="card-title">{pelicula.titulo}</h2>
                 <small>{pelicula.fechaEstreno}</small>
@@ -78,7 +86,7 @@ export default Detalle
 
 async function getData(param: string) {
   const res = await fetch(`${URL_API}/api/peliculas?filters[enlaceUrl][$eq]=${param}&populate=*`, {
-    next: { revalidate: 1000 },
+    next: { revalidate: 20 },
   })
 
   if (res.status !== 200) {

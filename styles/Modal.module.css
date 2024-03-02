@@ -1,6 +1,6 @@
 .modal_wrapper {
-  width: 500px;
-  height: 600px;
+  min-width: 400px;
+  height: 70%;
 }
 
 .modal {
