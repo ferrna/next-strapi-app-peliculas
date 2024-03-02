@@ -1,1 +1,2 @@
 ADD pagination limit to search route(/busqueda?search=value)
+ADD markdown sintax for descripcion field

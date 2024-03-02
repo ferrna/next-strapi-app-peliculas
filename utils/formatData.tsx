@@ -3,7 +3,8 @@ export const formatData = (data: any) => {
   attributes.id = data.id
   attributes.titulo = data.attributes.titulo
   attributes.enlaceUrl = data.attributes.enlaceUrl
-  attributes.descripcion = data.attributes.descripcion ? data.attributes.descripcion[0]?.children[0]?.text : ''
+  /* attributes.descripcion = data.attributes.descripcion ? data.attributes.descripcion[0]?.children[0]?.text : '' */
+  attributes.descripcion = data.attributes.descripcion
   attributes.pais = data.attributes.pais
   attributes.genero = data.attributes.genero
   attributes.director = data.attributes.director

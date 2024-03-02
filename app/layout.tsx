@@ -16,6 +16,7 @@ export default function RootLayout({
       <body className={inter.className}>
         {children}
         <BootstrapClient />
+        <div id="modal-root"></div>
       </body>
     </html>
   )

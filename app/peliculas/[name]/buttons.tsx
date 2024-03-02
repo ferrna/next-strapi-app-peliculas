@@ -1,5 +1,6 @@
 'use client'
 import { URL_API } from '@/config'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { FC } from 'react'
 
@@ -35,10 +36,12 @@ const Buttons: FC<ButtonsProps> = ({ id }) => {
         Borrar
       </button>
 
-      <button className="btn btn-primary">
-        <span className="bi bi-pencil" style={{ fontSize: '16px', color: 'rgb(254, 254, 254)' }}></span>
-        Editar
-      </button>
+      <Link href={`/peliculas/editar/${id}`}>
+        <button className="btn btn-primary">
+          <span className="bi bi-pencil" style={{ fontSize: '16px', color: 'rgb(254, 254, 254)' }}></span>
+          Editar
+        </button>
+      </Link>
     </div>
   )
 }
