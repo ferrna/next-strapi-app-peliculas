@@ -6,6 +6,9 @@ import { useRouter } from 'next/navigation'
 import { FC, FormEvent, useEffect } from 'react'
 import ModalImport from './modalImport'
 
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 const inputsMeta = [
   {
     name: 'titulo',
@@ -89,19 +92,24 @@ const Editar: FC<EditarProps> = async ({ params }) => {
         body: JSON.stringify({ data: { ...bodyObj } }),
       })
       if (response.status === 200) {
-        alert('Pelicula actualizada correctamente')
-        router.push('/')
+        toast.success('Pelicula actualizada correctamente', {
+          onClose: () => {
+            router.push('/')
+          },
+        })
       } else {
-        alert('Ha ocurrido un error al actualizar la pelicula')
+        toast.error('Ha ocurrido un error al actualizar la pelicula')
       }
     } catch (error) {
       console.error('Error editando pelicula:', error)
+      toast.error('Ha ocurrido un error al actualizar la pelicula')
       // Handle error
     }
   }
   return (
     <Layout title="Editar pelicula">
       <h2 className="row g-3 mt-3 ">Editar pelicula</h2>
+      <ToastContainer />
       <form className="row g-3 my-2 " onSubmit={handleSubmit}>
         {inputsMeta.map((input) => (
           <div className="col-md-6" key={input.name}>

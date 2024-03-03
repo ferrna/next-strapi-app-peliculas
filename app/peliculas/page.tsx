@@ -1,17 +1,12 @@
 'use client'
 import Layout from '@/components/Layout'
-import Modal from '@/components/Modal'
-import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import Pagination from './pagination'
+import { unstable_noStore } from 'next/cache'
 
 export default function Peliculas() {
-  const [showModal, setShowModal] = useState(false)
-  return (
-    <Layout title="Lista de Peliculas">
-      <h1>Peliculas</h1>
-      <div>
-        <button onClick={() => setShowModal(true)}>Open Modal</button>
-        {showModal && <Modal onClose={() => setShowModal(false)}></Modal>}
-      </div>
-    </Layout>
-  )
+  unstable_noStore()
+  const searchParams = useSearchParams()
+  const page = searchParams.get('page') || '1'
+  return <Layout>{page && <Pagination page={page} />}</Layout>
 }

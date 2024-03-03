@@ -42,6 +42,11 @@ const NavBar: FC<NavBarProps> = ({}) => {
                 Peliculas
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" href="/peliculas/agregar">
+                Agregar
+              </Link>
+            </li>
           </ul>
           <form className="d-flex" role="search" action="#" method="GET" onSubmit={handleSubmit}>
             <input
