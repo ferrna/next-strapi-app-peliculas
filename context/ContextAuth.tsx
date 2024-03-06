@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   //Validate authenticated user
   useEffect(() => {
     validate()
-  })
+  }, [])
   //Register a new user
   const register = async ({
     email,
@@ -35,7 +35,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const data = await response.json()
     if (data.user) {
       //setUser(data.user)
-      router.push('/users/acceso')
+      setError(null)
+      //router.push('/users/acceso')
       return data
     } else {
       setError(data.error.message)
@@ -53,11 +54,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       body: JSON.stringify({ identifier, password }),
     })
     const data = await response.json()
-    console.dir(data)
-    console.dir(data.user)
     if (data.user) {
       setUser(data.user)
-      router.push('/')
+      setError(null)
+      //router.push('/')
       return data
     } else {
       setError(data.error.message)
@@ -86,19 +86,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   //Validate user
-  const validate = () => {
+  const validate = async () => {
     console.log('charge validation')
-    fetch(`${NEXT_URL}/api/usuario`)
-      .then((res) => {
-        return res.json()
-      })
-      .then((data) => {
-        if (data.user) {
-          setUser(data.user)
-        } else {
-          setUser(null)
-        }
-      })
+    const res = await fetch(`${NEXT_URL}/api/usuario`)
+    const data = await res.json()
+    if (data.id) {
+      setUser({ user, ...data })
+    } else {
+      setUser(null)
+    }
   }
 
   return <ContextAuth.Provider value={{ user, error, register, auth, close }}>{children}</ContextAuth.Provider>

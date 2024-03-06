@@ -4,15 +4,20 @@ import ContextAuth from '@/context/ContextAuth'
 import { unstable_noStore } from 'next/cache'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { FormEvent, useContext } from 'react'
+import { FormEvent, useContext, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-const Acceso = async () => {
+const Acceso = () => {
   unstable_noStore()
   const router = useRouter()
   //Invoke Context
   const { auth, error } = useContext(ContextAuth)
+
+  useEffect(() => {
+    error ? toast.error(error) : null
+  })
+
   const accessPost = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
@@ -42,16 +47,10 @@ const Acceso = async () => {
 
   return (
     <Layout title="Acceso">
-      <div className="card">
+      <div className="card mt-5">
         <h2 className="row g-3 mt-3 mx-5">Acceso</h2>
         <ToastContainer />
         <form className="row g-3 my-2 mx-5" onSubmit={accessPost}>
-          {/* <div className="col-md-6">
-            <label htmlFor="inputAccesoUsername" className="form-label">
-              Usuario
-            </label>
-            <input name="username" type="text" className="form-control" id="inputAccesoUsername" required />
-          </div> */}
           <div className="col-md-6">
             <label htmlFor="inputAccesoEmail" className="form-label">
               Email
@@ -71,7 +70,7 @@ const Acceso = async () => {
           </div>
         </form>
         <div className="card-footer">
-          No estas registrado? <Link href="/users/Acceso">acceder</Link>
+          No estas registrado? <Link href="/users/registro">Registrarme</Link>
         </div>
       </div>
     </Layout>

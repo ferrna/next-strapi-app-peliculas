@@ -5,7 +5,9 @@ export async function POST(request: NextRequest, params: any) {
   if (request.method === 'POST') {
     if (request.body && typeof request.body === 'object') {
       //@ts-ignore
-      const { username, email, password } = request.body
+      const { username, email, password } = await request.json()
+      console.dir(username)
+      console.dir(email)
       if (username && password && email) {
         const rawData = await fetch(`${URL_API}/api/auth/local/register`, {
           method: 'POST',
