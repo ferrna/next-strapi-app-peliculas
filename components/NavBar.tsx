@@ -1,12 +1,14 @@
 'use client'
 import Link from 'next/link'
-import React, { FC, FormEvent } from 'react'
+import React, { FC, FormEvent, useContext } from 'react'
 import styles from '@/styles/NavBar.module.css'
 import { useRouter } from 'next/navigation'
+import ContextAuth from '@/context/ContextAuth'
 interface NavBarProps {}
 
 const NavBar: FC<NavBarProps> = ({}) => {
   const router = useRouter()
+  const { user, close } = useContext(ContextAuth)
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
@@ -42,11 +44,31 @@ const NavBar: FC<NavBarProps> = ({}) => {
                 Peliculas
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" href="/peliculas/agregar">
-                Agregar
-              </Link>
-            </li>
+            {user ? (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" href="/peliculas/agregar">
+                    Agregar
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" href="/users/admin">
+                    Admin
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <button className="nav-link" onClick={() => close()}>
+                    <i className="bi bi-box-arrow-right"></i> Salir
+                  </button>
+                </li>
+              </>
+            ) : (
+              <li className="nav-item">
+                <Link className="btn btn-outline-primary mx-2 " href="/users/acceso">
+                  <i className="bi bi-box-arrow-in-right"></i> Acceder
+                </Link>
+              </li>
+            )}
           </ul>
           <form className="d-flex" role="search" action="#" method="GET" onSubmit={handleSubmit}>
             <input
