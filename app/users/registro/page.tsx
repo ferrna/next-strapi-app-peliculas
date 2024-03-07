@@ -9,7 +9,7 @@ import { FormEvent, useContext, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-const Registro = async () => {
+const Registro = () => {
   unstable_noStore()
   const router = useRouter()
   //Invoke Context
@@ -21,31 +21,32 @@ const Registro = async () => {
   const registerPost = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    try {
-      if (formData.get('password') !== formData.get('confirmPassword')) {
-        toast.error('Los campos de contraseña no coinciden')
-        return
-      }
-      const body: any = {
-        username: formData.get('username'),
-        email: formData.get('email'),
-        password: formData.get('password'),
-      }
-      register({ ...body }).then((res: any) => {
-        if (res.user) {
-          toast.success('Registro con exito', {
-            onClose: () => {
-              router.push('/')
-            },
-          })
-        } else {
-          toast.error('Ha ocurrido un error al registrase')
-          // Handle other response statuses (e.g., validation errors)
+    if (formData.get('email') && formData.get('password') && formData.get('username')) {
+      try {
+        if (formData.get('password') !== formData.get('confirmPassword')) {
+          toast.error('Los campos de contraseña no coinciden')
+          return
         }
-      })
-    } catch (error) {
-      console.error('Error creating user:', error)
-      toast.error('Ha ocurrido un error al registrarse')
+        const body: any = {
+          username: formData.get('username'),
+          email: formData.get('email'),
+          password: formData.get('password'),
+        }
+        register({ ...body }).then((res: any) => {
+          if (res.user) {
+            toast.success('Registro con exito', {
+              onClose: () => {
+                router.push('/')
+              },
+            })
+          }
+        })
+      } catch (err) {
+        console.error('Error creating user:', err)
+        toast.error('Ha ocurrido un error al registrarse')
+      }
+    } else {
+      toast.error('Por favor, complete los campos')
     }
   }
 

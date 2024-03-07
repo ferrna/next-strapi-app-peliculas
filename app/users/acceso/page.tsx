@@ -21,27 +21,27 @@ const Acceso = () => {
   const accessPost = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    console.log(formData.get('email') + 'formdata')
-    try {
-      const body: any = {
-        identifier: formData.get('email'),
-        password: formData.get('password'),
-      }
-      auth({ identifier: body.identifier, password: body.password }).then((res: any) => {
-        if (res.user) {
-          toast.success('Acceso con exito', {
-            onClose: () => {
-              router.push('/')
-            },
-          })
-        } else {
-          toast.error('Ha ocurrido un error al acceder')
-          // Handle other response statuses (e.g., validation errors)
+    if (formData.get('email') && formData.get('password')) {
+      try {
+        const body: any = {
+          identifier: formData.get('email'),
+          password: formData.get('password'),
         }
-      })
-    } catch (err) {
-      console.error('Error creating user:', error)
-      toast.error('Ha ocurrido un error al acceder')
+        auth({ identifier: body.identifier, password: body.password }).then((res: any) => {
+          if (res.user) {
+            toast.success('Acceso con exito', {
+              onClose: () => {
+                router.push('/')
+              },
+            })
+          }
+        })
+      } catch (err) {
+        console.error('Error logging in:', err)
+        toast.error('Ha ocurrido un error al acceder')
+      }
+    } else {
+      toast.error('Por favor, complete ambos campos')
     }
   }
 

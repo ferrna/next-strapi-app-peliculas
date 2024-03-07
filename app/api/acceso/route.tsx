@@ -30,7 +30,7 @@ export async function POST(request: NextRequest, params: any) {
         })
 
         return response
-      }
+      } 
     } else {
       return NextResponse.json({ message: 'Invalid request' }, { status: 400 })
     }

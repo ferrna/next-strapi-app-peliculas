@@ -1,13 +1,14 @@
 import Layout from '@/components/Layout'
 import { URL_API } from '@/config'
 import Link from 'next/link'
-import { FC } from 'react'
+import { FC, useContext } from 'react'
 import styles from '@/styles/Detalles.module.css'
 import { formatData } from '@/utils/formatData'
 import { StarRating } from '@/utils/starRating'
 import Buttons from './buttons'
 import imagenTemp from '@/public/imagenes/pelicula-temp.jpg'
 import Image from 'next/image'
+import ContextAuth from '@/context/ContextAuth'
 
 interface DetalleProps {
   params: { name: string }
@@ -15,6 +16,7 @@ interface DetalleProps {
 
 const Detalle: FC<DetalleProps> = async ({ params }) => {
   const { name } = params
+  const { user, close } = useContext(ContextAuth)
   const res = await getData(name)
   const pelicula = formatData(res.data[0])
 
@@ -22,7 +24,7 @@ const Detalle: FC<DetalleProps> = async ({ params }) => {
     <Layout title="Detalle de Pelicula">
       <div className="container my-4">
         <div className="card">
-          <Buttons id={pelicula.id} />
+          {user && <Buttons id={pelicula.id} />}
           <div className="card-body">
             <div className="card text-bg-dark mb-3">
               <Image
