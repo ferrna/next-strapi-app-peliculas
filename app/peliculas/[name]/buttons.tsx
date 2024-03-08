@@ -1,8 +1,11 @@
 'use client'
-import { URL_API } from '@/config'
+import ContextAuth from '@/context/ContextAuth'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { FC } from 'react'
+import React, { FC, MouseEvent, useContext, useEffect } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { fetchDelete } from './actions/fetchDelete'
 
 interface ButtonsProps {
   id: number
@@ -10,24 +13,34 @@ interface ButtonsProps {
 
 const Buttons: FC<ButtonsProps> = ({ id }) => {
   const router = useRouter()
+
+  //Invoke Context
+  const { error } = useContext(ContextAuth)
+  useEffect(() => {
+    error ? toast.error(error) : null
+  })
+
   const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     try {
       if (confirm('Esta seguro que desea borrar la pelicula?')) {
-        const response = await fetch(`${URL_API}/api/peliculas/${id}`, {
-          method: 'DELETE',
+        fetchDelete({ id }).then((response) => {
+          console.log(response)
+          if (response.data?.id) {
+            toast.success('La pelicula ha sido eliminada correctamente', {
+              onClose: () => {
+                router.push('/')
+              },
+            })
+          } else {
+            toast.error('Ha ocurrido un error')
+          }
         })
-        if (response.status === 200) {
-          alert('Pelicula BORRADA correctamente')
-        } else {
-          // Handle other response statuses (e.g., validation errors)
-        }
       }
     } catch (error) {
-      console.error('Error borrando pelicula:', error)
-      // Handle error
+      console.error('Error deleting movie from favorites:', error)
+      toast.error('Ha ocurrido un error')
     }
-    router.push(`/`)
   }
   return (
     <div>
@@ -35,7 +48,7 @@ const Buttons: FC<ButtonsProps> = ({ id }) => {
         <span className="bi bi-trash" style={{ fontSize: '16px', color: 'rgb(254, 254, 254)' }}></span>
         Borrar
       </button>
-
+      <ToastContainer />
       <Link href={`/peliculas/editar/${id}`}>
         <button className="btn btn-primary">
           <span className="bi bi-pencil" style={{ fontSize: '16px', color: 'rgb(254, 254, 254)' }}></span>

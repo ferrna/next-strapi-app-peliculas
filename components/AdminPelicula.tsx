@@ -2,7 +2,6 @@ import React, { MouseEvent } from 'react'
 import styles from '@/styles/Pelicula.module.css'
 import Link from 'next/link'
 import { NEXT_URL } from '@/config'
-import { toast } from 'react-toastify'
 
 interface Pelicula {
   id: number
@@ -20,7 +19,7 @@ const AdminPelicula = ({ id, titulo, descripcion, enlaceUrl, fechaEstreno }: Pel
   const handleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     /* try {
-      const response = await fetch(`${NEXT_URL}/api/peliculas/${id}`, {
+      const response = await fetch(`${NEXT_URL}/api/peliculas/users/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -32,7 +31,7 @@ const AdminPelicula = ({ id, titulo, descripcion, enlaceUrl, fechaEstreno }: Pel
         toast.error('Ha ocurrido un error')
       }
     } catch (error) {
-      console.error('Error deleting movie from pavorites:', error)
+      console.error('Error deleting movie from favorites:', error)
       toast.error('Ha ocurrido un error')
     } */
   }
