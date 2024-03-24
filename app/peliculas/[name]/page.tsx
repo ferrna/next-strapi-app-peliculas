@@ -18,14 +18,10 @@ const Detalle: FC<DetalleProps> = ({ params }) => {
   const { name } = params
   const { user } = useContext(ContextAuth)
   const [pelicula, setPelicula] = useState<any>()
-
-  useEffect(() => {
-    name &&
-      getData(name).then((res) => {
-        setPelicula(res)
-        return
-      })
-  }, [name])
+  getData(name).then((res) => {
+    setPelicula(res)
+    return
+  })
   return (
     <Layout title="Detalle de Pelicula">
       <div className="container my-4">

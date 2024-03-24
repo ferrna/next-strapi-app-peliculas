@@ -151,3 +151,14 @@ async function getData(id: string) {
 
   return res.json()
 }
+
+/* export async function getServerSideProps(context: any) {
+  const { token } = context.req.cookies
+  console.log(token)
+  if (!token) {
+    return {
+      notFound: true,
+    }
+  }
+}
+ */
