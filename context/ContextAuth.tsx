@@ -86,15 +86,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   //Validate user
-  const validate = async () => {
+  const validate = () => {
     console.log('charge validation')
-    const res = await fetch(`${NEXT_URL}/api/usuario`)
-    const data = await res.json()
-    if (data.id) {
-      setUser({ user, ...data })
-    } else {
-      setUser(null)
-    }
+    fetch(`${NEXT_URL}/api/usuario`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.id) {
+          data.peliculas = data.peliculas.map((peli: { id: number }) => peli.id)
+          setUser({ user, ...data })
+        } else {
+          setUser(null)
+        }
+      })
   }
 
   return <ContextAuth.Provider value={{ user, error, register, auth, close }}>{children}</ContextAuth.Provider>

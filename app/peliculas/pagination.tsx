@@ -4,7 +4,13 @@ import { formatData } from '@/utils/formatData'
 import Link from 'next/link'
 import { unstable_noStore } from 'next/cache'
 
-export default async function Pagination({ page = 1 }: { page: string | number }) {
+export default async function Pagination({
+  page = 1,
+  user,
+}: {
+  page: string | number
+    user: { id?: number | null, peliculas: number[] } | null
+}) {
   unstable_noStore()
   const limit = 3
   const start = Number(page) * limit - limit
@@ -13,7 +19,7 @@ export default async function Pagination({ page = 1 }: { page: string | number }
   const peliculas = data.map((pelicula: any) => formatData(pelicula))
   return (
     <div className="my-5">
-      {peliculas && peliculas.map((peli: any) => <Pelicula {...peli} />)}
+      {peliculas && peliculas.map((peli: any) => <Pelicula {...peli} user={user} />)}
       <div className="row mb-4">
         <div className="col-sm-6 offset-3 text-center">
           {+page > 1 && (

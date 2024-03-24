@@ -1,7 +1,10 @@
+'use client'
 import React, { MouseEvent } from 'react'
 import styles from '@/styles/Pelicula.module.css'
 import Link from 'next/link'
-import { NEXT_URL } from '@/config'
+import { URL_API } from '@/config'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
 
 interface Pelicula {
   id: number
@@ -15,36 +18,49 @@ interface Pelicula {
   calificacion: string
   fechaEstreno: string
 }
-const AdminPelicula = ({ id, titulo, descripcion, enlaceUrl, fechaEstreno }: Pelicula) => {
-  const handleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
+interface AdminPeliculaProps extends Pelicula {
+  userId: number
+}
+const AdminPelicula = ({ id, titulo, descripcion, enlaceUrl, fechaEstreno, userId }: AdminPeliculaProps) => {
+  const router = useRouter()
+  const handleDelete = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    /* try {
-      const response = await fetch(`${NEXT_URL}/api/peliculas/users/${id}`, {
-        method: 'DELETE',
+    try {
+      const data_body = {
+        peliculas: {
+          disconnect: [{ id: id }],
+        },
+      }
+      fetch(`${URL_API}/api/users/${userId}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify(data_body),
+      }).then((response) => {
+        if (response.status === 200) {
+          toast.success('La pelicula ha sido quitada de favoritos', {
+            onClose: () => {
+              router.push('/users/admin')
+            },
+          })
+        } else {
+          toast.error('Ha ocurrido un error')
+        }
       })
-      if (response.status === 200) {
-        toast.success('La pelicula ha sido quitada de favoritos')
-      } else {
-        toast.error('Ha ocurrido un error')
-      }
     } catch (error) {
       console.error('Error deleting movie from favorites:', error)
       toast.error('Ha ocurrido un error')
-    } */
+    }
   }
   return (
-    <div className="card text-bg-dark mb-4" style={{ minHeight: '180px' }} key={enlaceUrl}>
+    <div className="card text-bg-dark mb-4" style={{ minHeight: '180px' }}>
       <div className={`${styles.pelicula_img} py-2 px-1`}>
         <h3>{titulo}</h3>
       </div>
       <div className={`card-img-overlay ${styles.pelicula_details}`}>
-        <p key={titulo + 'description'} className={`card-text ${styles.pelicula_description}`}>
-          {descripcion}
-        </p>
-        <p key={titulo + 'text'} className="card-text">
+        <p className={`card-text ${styles.pelicula_description}`}>{descripcion}</p>
+        <p className="card-text">
           <small>{fechaEstreno}</small>
           <button className="btn btn-info m-2">
             <Link href={`/peliculas/${enlaceUrl}`} className="text-decoration-none">

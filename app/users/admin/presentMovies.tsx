@@ -1,11 +1,10 @@
 import AdminPelicula from '@/components/AdminPelicula'
 
-export default function PresentMovies({ peliculas }: { peliculas: any[] }) {
+export default function PresentMovies({ favorites, userId }: { favorites: any[]; userId: number }) {
   return (
-    <div className="mb-5">
-      <br />
-      <h3 className="mx-3 mt-4">Mis peliculas</h3>
-      {peliculas.length > 0 && peliculas.map((peli: any) => <AdminPelicula {...peli} />)}
+    <div>
+      {favorites.length > 0 &&
+        favorites.map((peli: any) => <AdminPelicula key={peli.enlaceUrl} {...peli} userId={userId} />)}
     </div>
   )
 }

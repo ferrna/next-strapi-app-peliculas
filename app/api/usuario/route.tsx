@@ -1,7 +1,9 @@
 import { URL_API } from '@/config'
+import { unstable_noStore } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest, params: any) {
+  unstable_noStore()
   if (request.method === 'GET') {
     if (!request.cookies.get('token')) {
       return NextResponse.json(
@@ -12,7 +14,7 @@ export async function GET(request: NextRequest, params: any) {
       )
     } else {
       const token = request.cookies.get('token') as { name: string; value: string }
-      const rawData = await fetch(`${URL_API}/api/users/me`, {
+      const rawData = await fetch(`${URL_API}/api/users/me?populate=*`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -1,8 +1,11 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 import styles from '@/styles/Pelicula.module.css'
 import Link from 'next/link'
 import imagenTemp from '@/public/imagenes/pelicula-temp.jpg'
 import Image from 'next/image'
+import { URL_API } from '@/config'
+import { ToastContainer, toast } from 'react-toastify'
 
 interface Pelicula {
   id: number
@@ -18,7 +21,56 @@ interface Pelicula {
   calificacion: string
   fechaEstreno: string
 }
-const Pelicula = ({ titulo, descripcion, enlaceUrl, imagenSmall, fechaEstreno }: Pelicula) => {
+interface PeliculaProps extends Pelicula {
+  user: { id?: number | null; peliculas: number[] } | null
+}
+const Pelicula = ({ id, titulo, descripcion, enlaceUrl, imagenSmall, fechaEstreno, user }: PeliculaProps) => {
+  console.log(user)
+  const [isUserFavorites, setIsUserFavorites] = useState(user ? user?.peliculas?.includes(id) : false)
+  const handleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    const data_body = {
+      peliculas: {
+        connect: [{ id: id }],
+      },
+    }
+    fetch(`${URL_API}/api/users/${user?.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data_body),
+    }).then((response) => {
+      if (response.status === 200) {
+        setIsUserFavorites(!isUserFavorites)
+        toast.success('La pelicula se ha añadido a favoritos')
+      } else {
+        toast.error('Ha ocurrido un error')
+      }
+    })
+  }
+  const handleRemove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    const data_body = {
+      peliculas: {
+        disconnect: [{ id: id }],
+      },
+    }
+    fetch(`${URL_API}/api/users/${user?.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data_body),
+    }).then((response) => {
+      if (response.status === 200) {
+        setIsUserFavorites(!isUserFavorites)
+        toast.success('La pelicula ha sido quitada de favoritos')
+      } else {
+        toast.error('Ha ocurrido un error')
+      }
+    })
+  }
   return (
     <div className="card text-bg-dark mb-5" style={{ minHeight: '180px' }} key={enlaceUrl}>
       <Image
@@ -42,6 +94,14 @@ const Pelicula = ({ titulo, descripcion, enlaceUrl, imagenSmall, fechaEstreno }:
               Ver detalles
             </Link>
           </button>
+          {user?.id && (
+            <button
+              className={`btn ${isUserFavorites ? 'btn-danger' : 'btn-outline-danger'} m-2`}
+              onClick={isUserFavorites ? handleRemove : handleFavorite}
+            >
+              {isUserFavorites ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+            </button>
+          )}
         </p>
       </div>
     </div>

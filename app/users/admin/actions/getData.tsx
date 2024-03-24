@@ -8,6 +8,5 @@ export async function getData(user: any) {
   const response = await fetch(`${URL_API}/api/users/${user.id}?populate=*`)
   const userData = await response.json()
   const movies = userData.peliculas
-  console.dir(movies)
   return movies
 }
